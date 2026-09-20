@@ -53,3 +53,6 @@ file-naming convention: `<Sample_ID>_<path_condition>.zip`
 | Raw028    | HC          | Bumpy           | Raw028_Bumpy.zip  |
 | Raw029    | VC          | Bumpy           |                   |
 | Raw030    | SA          | Bumpy           |                   |
+
+EXTRA:
+- 20.09.2026 - HC added longer annotated files in the drive
