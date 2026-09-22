@@ -24,16 +24,16 @@ file-naming convention: `<Sample_ID>_<path_condition>.zip`
 | Sample_ID | PARTICIPANT | Path_ condition | uploaded?         |
 | --------- | ----------- | --------------- | ----------------- |
 | Raw001    | HC          | Smooth          | Raw001_Smooth.zip |
-| Raw002    | VC          | Smooth          |                   |
+| Raw002    | VC          | Smooth          | Raw002_Smooth.zip |
 | Raw003    | SA          | Smooth          |                   |
 | Raw004    | HC          | Bumpy           | Raw004_Bumpy.zip  |
-| Raw005    | VC          | Bumpy           |                   |
+| Raw005    | VC          | Bumpy           | Raw005_Bumpy.zip  |
 | Raw006    | SA          | Bumpy           |                   |
 | Raw007    | HC          | Smooth          | Raw007_Smooth.zip |
-| Raw008    | VC          | Smooth          |                   |
+| Raw008    | VC          | Smooth          | Raw008_Smooth.zip |
 | Raw009    | SA          | Smooth          |                   |
 | Raw010    | HC          | Bumpy           | Raw010_Bumpy.zip  |
-| Raw011    | VC          | Bumpy           |                   |
+| Raw011    | VC          | Bumpy           | Raw011_Bumpy.zip  |
 | Raw012    | SA          | Bumpy           |                   |
 | Raw013    | HC          | Smooth          | Raw013_Smooth.zip |
 | Raw014    | VC          | Smooth          |                   |
