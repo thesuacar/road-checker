@@ -1,1 +1,2 @@
-/data/road-checker-data/
+/data/*
+.DS_Store
