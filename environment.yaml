@@ -1,0 +1,11 @@
+#required packages to run the notebook
+name: roadchecker
+dependencies:
+  - python=3.12
+  - pip
+  - pip:
+      - numpy
+      - pandas
+      - matplotlib
+  - conda-forge::jupyterlab
+  - conda-forge::gdown
