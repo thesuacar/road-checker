@@ -7,5 +7,7 @@ dependencies:
       - numpy
       - pandas
       - matplotlib
+      - scipy
+      - scikit-learn
   - conda-forge::jupyterlab
   - conda-forge::gdown
