@@ -1,0 +1,28 @@
+\section{Modeling}
+\textbf{Partitioning.} \fillme{Describe frozen multi-participant, complete-recording 78/22 hold-out; 13 independent training split groups, including two original parent sessions. Explain grouped internal validation and scaling within each fold.}
+
+\textbf{Candidate feature sets.} \fillme{Describe full\_12, compact\_physics\_5 and compact\_ratio\_4; justify their comparison.}
+
+\textbf{Supervised methods.} k-NN, Logistic Regression, Decision Tree and Random Forest. \fillme{Record the course-motivated reason for each and the actual hyperparameter search ranges.}
+
+\textbf{Unsupervised methods.} K-Means, Agglomerative Clustering, DBSCAN and Gaussian Mixture Model. \fillme{Contrast cluster assumptions; explain that terrain labels are never inputs to clustering.}
+
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Model settings and comparison plan (complete only after running the notebook).}
+\label{tab:models}
+\begin{tabularx}{\linewidth}{@{}l l X@{}}
+\toprule
+Approach & Method & Selected features / parameters / evidence \\
+\midrule
+Supervised & k-NN & \fillme{Fill from validated model run} \\
+Supervised & Logistic Regression & \fillme{Fill} \\
+Supervised & Decision Tree & \fillme{Fill} \\
+Supervised & Random Forest & \fillme{Fill} \\
+Unsupervised & K-Means & \fillme{Fill} \\
+Unsupervised & Agglomerative & \fillme{Fill} \\
+Unsupervised & DBSCAN & \fillme{Fill} \\
+Unsupervised & GMM & \fillme{Fill} \\
+\bottomrule
+\end{tabularx}
+\end{table}

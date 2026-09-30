@@ -5,11 +5,11 @@
 - Extracted results from the table above:
 
 
-| Terrain Gap (mm) | Distance cycled (m) | Intended speed | Measured time to complete (sample 1) - (s) | Measured time to complete (sample 2) - (s) | Measured time to complete (sample 3) - (s) |
-| ---------------- | ------------------- | -------------- | ------------------------------------------ | ------------------------------------------ | ------------------------------------------ |
-| 100              | 10                  | Slow           | 3.63                                       | 4.06                                       | 4.03                                       |
-| 100              | 10                  | Medium         | 2.50                                       | 2.45                                       | 2.60                                       |
-| 100              | 10                  | Fast           | 1.95                                       | 1.85                                       | 2.06                                       |
+| Terrain Gap (mm) - $\lambda$ | Distance cycled (m) | Intended speed | Measured time to complete (sample 1) - (s) | Measured time to complete (sample 2) - (s) | Measured time to complete (sample 3) - (s) |
+| ---------------------------- | ------------------- | -------------- | ------------------------------------------ | ------------------------------------------ | ------------------------------------------ |
+| 100                          | 10                  | Slow           | 3.63                                       | 4.06                                       | 4.03                                       |
+| 100                          | 10                  | Medium         | 2.50                                       | 2.45                                       | 2.60                                       |
+| 100                          | 10                  | Fast           | 1.95                                       | 1.85                                       | 2.06                                       |
 
 Terrain gaps measured (to estimate frequencies based on the data collected above):
 
@@ -39,7 +39,7 @@ Sim. Esse experimento faz bastante sentido e, mais importante, dá a vocês uma 
 
 A forma como eu enquadraria isso é: vocês estão fazendo um pequeno **physics-informed calibration experiment** antes do ML.
 
-A relação principal é muito simples. Se as irregularidades estão espaçadas por λ\lambda metros e a bicicleta passa a velocidade vv, a frequência aproximada com que elas excitam a bicicleta é:
+A relação principal é muito simples. Se as irregularidades estão espaçadas por λ\lambda metros e a bicicleta passa a velocidade $v$, a frequência aproximada com que elas excitam a bicicleta é:
 $$
 f_{\text{road}} \approx \frac{v}{\lambda}
 $$

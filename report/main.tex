@@ -1,0 +1,52 @@
+% 5ARE0 Assignment 1 — report starter (NOT a completed assignment report)
+% Reconcile final submission ZIP filename with latest Canvas instruction.
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=18mm,headheight=13pt]{geometry}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage[backend=biber,style=numeric,sorting=none]{biblatex}
+\addbibresource{references.bib}
+\hypersetup{colorlinks=true,urlcolor=blue!50!black,linkcolor=black,citecolor=blue!50!black}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+\setlist[itemize]{nosep,leftmargin=1.3em}
+\setlist[enumerate]{nosep,leftmargin=1.3em}
+\newcommand{\fillme}[1]{\textcolor{gray}{\textit{[Insert: #1]}}}
+\newcommand{\figorplaceholder}[4]{%
+  \begin{figure}[htbp]
+  \centering
+  \IfFileExists{#1}{\includegraphics[width=#2\linewidth]{#1}}{\fbox{\parbox[c][16mm][c]{0.88\linewidth}{\centering\small\fillme{Place figure at \texttt{\detokenize{#1}}}}}}%
+  \caption{#3}\label{#4}
+  \end{figure}%
+}
+
+\begin{document}
+\begin{center}
+ {\large\bfseries Assessing Bicycle Lane Quality Using Smartphone Sensor Data}\\[3pt]
+ {\bfseries 5ARE0 — Data Analysis \& Learning Methods | Assignment 1 | Group 5}\\[4pt]
+ Su Acar (2475901) \quad Vikram Chandrasekaran (2542544)\\
+ Henrique DaSilva Couto (2463334)\\[3pt]
+ \today
+\end{center}
+\vspace{-5pt}\hrule\vspace{4pt}
+\small
+% Up to 8 pages according to the assignment PDF. Keep this heading compact.
+% Replace every [Insert: ...] placeholder with your group's own analysis and verified results.
+\input{sections/01_objective}
+\input{sections/02_data_understanding}
+\input{sections/03_data_preparation}
+\input{sections/04_modeling}
+\input{sections/05_evaluation}
+\input{sections/06_deployment}
+\printbibliography[heading=bibintoc,title={References}]
+\end{document}

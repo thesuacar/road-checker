@@ -1,0 +1,9 @@
+\section{Data Preparation}
+\textbf{Processing pipeline.} \fillme{Sensor alignment, calibrated dynamic acceleration projected along the gravity direction, gyro magnitude, jerk, operational-state gating and 2 s transition exclusion. Explain that centred filters are offline/noncausal.}
+
+\textbf{Frequency analysis and windowing.} \fillme{State the physics-informed 4--46 Hz Butterworth analysis band, Welch PSD, 2 s windows and 50\% overlap; do not claim everything inside the band is road-caused.}
+
+\textbf{Features and reduction.} \fillme{Document the 12 engineered candidates; correlation and mutual-information analysis using TRAIN only; motivate compact sets and note redundancy/physical interpretation.}
+
+\figorplaceholder{figures/state_gating.pdf}{0.90}{Operational-state gating and valid riding segments.}{fig:gating}
+\figorplaceholder{figures/psd_terrain.pdf}{0.82}{State-gated PSD comparison between Smooth and Bumpy windows.}{fig:psd}
