@@ -1,4 +1,11 @@
-/data*
+# ------------------------------------------------------------
+# Ignore processed data, keep on git only deployment_data
+# ------------------------------------------------------------
+/data/checkpoints
+/data/downloads
+/data/extracted
+/data/model*
+
 
 # ------------------------------------------------------------
 # macOS

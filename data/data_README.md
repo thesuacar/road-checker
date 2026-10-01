@@ -2,11 +2,9 @@
 folder_url = "https://drive.google.com/drive/folders/1DpgvoIUkZJ55P85hu4zdvwaJ9wdvKUn8?usp=sharing"
 
 # Data
-
 This describes how the raw sensor recordings are pulled and processed by [notebook.ipynb](../notebook.ipynb).
 
 ## Source
-
 Recordings are stored in a shared Google Drive folder and pulled locally with [gdown](https://github.com/wkentaro/gdown) — no manual download needed. Everything under `data/` is gitignored, so each collaborator fetches their own local copy by running the notebook.
 
 ## Pipeline
