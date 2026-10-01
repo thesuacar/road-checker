@@ -1,3 +1,6 @@
+# Google drive folder where the data was stored initially by the participants:
+folder_url = "https://drive.google.com/drive/folders/1DpgvoIUkZJ55P85hu4zdvwaJ9wdvKUn8?usp=sharing"
+
 # Data
 
 This describes how the raw sensor recordings are pulled and processed by [notebook.ipynb](../notebook.ipynb).
