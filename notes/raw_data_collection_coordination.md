@@ -11,10 +11,13 @@ DaSilva Couto, Henrique Da - Student number: 2463334
 - Placement - back pocket
 	- less leg displacement / consistent across participants
 
-- 5x of each type of road, per participant
+- Initial plan = 5x of each type of road, per participant
 	- 30 datasets in total
 
-- duration - at least 30 seconds - no more than 2 minutes
+- duration - at least 30 seconds
+
+- Data Anonymization
+  - Participants were given a secret code that was kept from the final assignment handout
 
 Raw data naming:
 file-naming convention: `<Sample_ID>_<path_condition>.zip`
@@ -38,22 +41,22 @@ Participant's names are not shown for data anonymisation purposes
 | Raw011    | #02                     | Bumpy           | Raw011_Bumpy.zip  |
 | Raw012    | #03                     | Bumpy           | Raw012_Bumpy.zip  |
 | Raw013    | #01                     | Smooth          | Raw013_Smooth.zip |
-| Raw014    | #02                     | Smooth          | `missing`         |
+| Raw014    | #02                     | Smooth          | `not collectected - sampling issue Android`   |
 | Raw015    | #03                     | Smooth          | Raw015_Smooth.zip |
 | Raw016    | #01                     | Bumpy           | Raw016_Bumpy.zip  |
-| Raw017    | #02                     | Bumpy           | `missing`         |
+| Raw017    | #02                     | Bumpy           | `not collectected - sampling issue Android`         |
 | Raw018    | #03                     | Bumpy           | Raw018_Bumpy.zip  |
 | Raw019    | #01                     | Smooth          | Raw019_Smooth.zip |
-| Raw020    | #02                     | Smooth          | `missing`         |
+| Raw020    | #02                     | Smooth          | `not collectected - sampling issue Android`         |
 | Raw021    | #03                     | Smooth          | Raw021_Smooth.zip |
 | Raw022    | #01                     | Bumpy           | Raw022_Bumpy.zip  |
-| Raw023    | #02                     | Bumpy           | `missing`         |
+| Raw023    | #02                     | Bumpy           | `not collectected - sampling issue Android`         |
 | Raw024    | #03                     | Bumpy           | Raw024_Bumpy.zip  |
 | Raw025    | #01                     | Smooth          | Raw025_Smooth.zip |
-| Raw026    | #02                     | Smooth          | `missing`         |
+| Raw026    | #02                     | Smooth          | `not collectected - sampling issue Android`         |
 | Raw027    | #03                     | Smooth          | Raw027_Smooth.zip |
 | Raw028    | #01                     | Bumpy           | Raw028_Bumpy.zip  |
-| Raw029    | #02                     | Bumpy           | `missing`         |
+| Raw029    | #02                     | Bumpy           | `not collectected - sampling issue Android`         |
 | Raw030    | #03                     | Bumpy           | Raw030_Bumpy.zip  |
 | Raw031    | #01                     | Bumpy           | Raw031_Bumpy.zip  |
 | Raw032    | #01                     | Smooth          | Raw032_Smooth.zip |
