@@ -8,9 +8,9 @@ Smartphone sensor data were collected while participants cycled over road
 segments labelled as either \textit{Smooth} or \textit{Bumpy}. The smartphone
 was placed in the rider's back pocket to provide a reasonably consistent
 measurement position while limiting direct displacement caused by leg
-movement. The initial collection plan targeted five recordings of each terrain
-type per participant, with individual recordings lasting at least 30~s. Three participants
-originally collected data, of whom two remained after quality screening.
+movement. The initial collection plan targeted at least five recordings of each terrain
+type per participant. Three participants originally collected data,
+of whom two remained after quality screening.
 
 Three sensor streams were retained for the analysis: calibrated
 accelerometer, gravity and calibrated gyroscope measurements, each containing
@@ -26,11 +26,13 @@ measured close to the intended 100~Hz sampling rate. Recordings originating
 from participant~\#03 were instead sampled at approximately 62~Hz.
 
 At 62~Hz the corresponding Nyquist frequency is only approximately
-31~Hz. This is incompatible with the later frequency-domain analysis, which
-uses information extending to 46~Hz. Upsampling these recordings would
-increase the sample count but could not reconstruct frequency content that was
-never measured. Participant~\#03 was therefore excluded rather than mixing
-measurements with fundamentally different observable bandwidths.
+31~Hz. This is incompatible with the later frequency-domain analysis
+(as can be seen in figure \ref{fig:physics-informed}), which uses information
+extending to 46~Hz. Upsampling these recordings would increase the sample count but 
+could not reconstruct frequency content that was never measured. Participant~\#03 was
+therefore excluded rather than mixing measurements with fundamentally
+different observable bandwidths. To compensate for the reduced number of participants,
+more data was collected as per appendix \ref{app:data-collection-plan}.
 
 After this quality-control step, 26 recordings were retained, corresponding
 to approximately 4789~s (79.8~min) of sensor data. This exclusion improves

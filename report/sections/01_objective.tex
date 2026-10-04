@@ -1,4 +1,5 @@
 \section{Business / Objective Understanding}
+\label{sec:business-understanding}
 \textbf{Research objective.}
 The classification target was defined as \textit{Smooth} $=0$ and
 \textit{Bumpy} $=1$, with Bumpy treated as the positive class.
@@ -10,9 +11,9 @@ In the intended screening workflow, a Bumpy prediction would trigger further
 inspection or prioritisation rather than immediate maintenance; consequently,
 excessive false alarms would directly consume limited inspection resources.
 
-However, precision alone is not an adequate optimisation criterion. A highly
-conservative classifier could obtain very high precision simply by predicting Bumpy only
-in a small number of extreme cases, while missing most genuinely bumpy roads. Therefore,
+That being said, precision alone was proven to be not an optimal criterion. For instance, a highly
+conservative classifier could obtain very high precision simply by predicting \textit{Bumpy} only
+in a few extreme cases, while missing most genuinely bumpy roads. Therefore,
 the primary model-selection metric was chosen as the $F_{0.5}$ score:
 
 \begin{equation}
@@ -22,5 +23,5 @@ F_{0.5}
      {0.25\,\mathrm{Precision}+\mathrm{Recall}}.
 \end{equation}
 
-The value $\beta=0.5$ weights precision more strongly than recall while still penalising models that achieve high precision by detecting too few Bumpy segments. Precision, recall, specificity, balanced accuracy, ROC--AUC and average precision were retained as supporting diagnostic metrics.
-
+The value $\beta=0.5$ weights precision more strongly than recall while still penalising
+models that achieve high precision by detecting too few Bumpy segments.

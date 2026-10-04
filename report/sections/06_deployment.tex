@@ -1,4 +1,5 @@
 \section{Deployment Considerations \& Recommendations}
+\label{sec:deployment}
 \textbf{External deployment.}
 Following the one-time held-out evaluation, the final pipeline was applied without 
 modification to the independent external dataset. The external data were not 
@@ -29,7 +30,8 @@ intervals where Bumpy probability exceeded the decision threshold.
 Because the external recording contains no terrain ground truth, these results
 cannot be used to calculate classification performance. They instead
 demonstrate that the complete preprocessing and inference pipeline can be
-transferred to unseen sensor data and produce Smooth/Bumpy predictions over time.
+transferred to unseen sensor data and produce Smooth/Bumpy predictions over time, 
+which would be suitable for a later stage real-time smartphone deployment.
 
 \subsection{Limitations and Recommendations}
 

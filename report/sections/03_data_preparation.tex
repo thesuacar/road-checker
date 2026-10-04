@@ -47,7 +47,9 @@ windows, corresponding to an approximately $1.79\times$ ratio.
 
 Together with the independent pedalling experiment in
 Section~\ref{sec:physics-eda}, this supported use of the 4--46~Hz band for
-analysis. The band should nevertheless be interpreted as a physically
+analysis. 
+
+Once again, the band should nevertheless be interpreted as a physically
 motivated analysis region rather than evidence that all energy within it is
 road-generated.
 
@@ -62,11 +64,11 @@ road-generated.
     \label{fig:physics-informed}
 \end{figure}
 
-The retained riding data were divided into 2~s windows with 50\% overlap,
+The state-gated riding data (that was classified as \textit{In Movement}) were divided into 2~s windows with 50\% overlap,
 resulting in 4246 valid windows. Because the current filtering implementation uses non-causal processing,
-the present pipeline should be regarded as an offline analysis pipeline.
-The 2~s windows with 50\% overlap additionally introduce temporal dependence
-between neighbouring feature vectors.
+the present pipeline should be regarded as an offline analysis pipeline. If we consider a real-time implementation,
+the classifier would need to be triggered by the state-gating DSP-based algorithm. Besides, it's worth noting that the
+2~s windows with 50\% overlap additionally introduce temporal dependence between neighbouring feature vectors.
 
 \textbf{Features and reduction.}
 Twelve candidate features were engineered from each valid window:
@@ -97,6 +99,5 @@ and \texttt{compact\_ratio\_4}, containing four features including the
 high/low spectral-energy ratio.
 
 Interestingly, Logistic Regression still performed best with all 12 features,
-despite the redundancy between some of them. k-NN behaved differently and performed best with
-\texttt{full\_12}, containing all twelve features;
-the reduced \texttt{compact\_physics\_5} set.
+despite the redundancy between some of them. k-NN behaved differently and performed
+best with the reduced \texttt{compact\_physics\_5} set (see figure \ref{fig:appendix-supervised-cm}).

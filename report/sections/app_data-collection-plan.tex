@@ -1,0 +1,154 @@
+
+\section{Data Collection Strategy}
+\label{app:data-collection-plan}
+
+\textbf{Placement.}
+The smartphone was placed in the participant's back pocket. This placement was
+chosen to reduce direct leg displacement effects and to maintain a consistent
+sensor position across participants.
+
+\textbf{Initial collection plan.}
+The initial target was to collect five recordings of each road condition per
+participant, resulting in a planned total of 30 datasets. Each recording was
+intended to have a duration of at least 30~s.
+
+\textbf{Data anonymisation.}
+Participants were assigned secret codes that were not associated with their
+names in the final assignment material. Raw recordings followed the naming
+convention
+
+\begin{center}
+\texttt{<Sample\_ID>\_<path\_condition>.zip}
+\end{center}
+
+For example:
+
+\begin{center}
+\texttt{Raw001\_Smooth.zip}
+\end{center}
+
+Participant names are not shown in order to preserve anonymisation.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{Raw data collection overview.}
+\label{tab:raw-data-overview}
+\begin{tabular}{llll}
+\toprule
+Sample ID & Participant code & Path condition & Uploaded file \\
+\midrule
+Raw001 & \#01 & Smooth & \texttt{Raw001\_Smooth.zip} \\
+Raw002 & \#02 & Smooth & \texttt{Raw002\_Smooth.zip} \\
+Raw003 & \#03 & Smooth & \texttt{Raw003\_Smooth.zip} \\
+Raw004 & \#01 & Bumpy  & \texttt{Raw004\_Bumpy.zip} \\
+Raw005 & \#02 & Bumpy  & \texttt{Raw005\_Bumpy.zip} \\
+Raw006 & \#03 & Bumpy  & \texttt{Raw006\_Bumpy.zip} \\
+Raw007 & \#01 & Smooth & \texttt{Raw007\_Smooth.zip} \\
+Raw008 & \#02 & Smooth & \texttt{Raw008\_Smooth.zip} \\
+Raw009 & \#03 & Smooth & \texttt{Raw009\_Smooth.zip} \\
+Raw010 & \#01 & Bumpy  & \texttt{Raw010\_Bumpy.zip} \\
+Raw011 & \#02 & Bumpy  & \texttt{Raw011\_Bumpy.zip} \\
+Raw012 & \#03 & Bumpy  & \texttt{Raw012\_Bumpy.zip} \\
+Raw013 & \#01 & Smooth & \texttt{Raw013\_Smooth.zip} \\
+Raw014 & \#02 & Smooth & not collected \\
+Raw015 & \#03 & Smooth & \texttt{Raw015\_Smooth.zip} \\
+Raw016 & \#01 & Bumpy  & \texttt{Raw016\_Bumpy.zip} \\
+Raw017 & \#02 & Bumpy  & not collected \\
+Raw018 & \#03 & Bumpy  & \texttt{Raw018\_Bumpy.zip} \\
+Raw019 & \#01 & Smooth & \texttt{Raw019\_Smooth.zip} \\
+Raw020 & \#02 & Smooth & not collected \\
+Raw021 & \#03 & Smooth & \texttt{Raw021\_Smooth.zip} \\
+Raw022 & \#01 & Bumpy  & \texttt{Raw022\_Bumpy.zip} \\
+Raw023 & \#02 & Bumpy  & not collected \\
+Raw024 & \#03 & Bumpy  & \texttt{Raw024\_Bumpy.zip} \\
+Raw025 & \#01 & Smooth & \texttt{Raw025\_Smooth.zip} \\
+Raw026 & \#02 & Smooth & not collected \\
+Raw027 & \#03 & Smooth & \texttt{Raw027\_Smooth.zip} \\
+Raw028 & \#01 & Bumpy  & \texttt{Raw028\_Bumpy.zip} \\
+Raw029 & \#02 & Bumpy  & not collected \\
+Raw030 & \#03 & Bumpy  & \texttt{Raw030\_Bumpy.zip} \\
+Raw031 & \#01 & Bumpy  & \texttt{Raw031\_Bumpy.zip} \\
+Raw032 & \#01 & Smooth & \texttt{Raw032\_Smooth.zip} \\
+Raw033 & \#01 & Bumpy  & \texttt{Raw033\_Bumpy.zip} \\
+Raw034 & \#01 & Smooth & \texttt{Raw034\_Smooth.zip} \\
+Raw035 & \#01 & Bumpy  & \texttt{Raw035\_Bumpy.zip} \\
+Raw036 & \#01 & Smooth & \texttt{Raw036\_Smooth.zip} \\
+Raw037 & \#01 & Bumpy  & \texttt{Raw037\_Bumpy.zip} \\
+Raw038 & \#01 & Smooth & \texttt{Raw038\_Smooth.zip} \\
+Raw039 & \#01 & Bumpy  & \texttt{Raw039\_Bumpy.zip} \\
+Raw040 & \#01 & Smooth & \texttt{Raw040\_Smooth.zip} \\
+Raw041 & \#01 & Bumpy  & \texttt{Raw041\_Bumpy.zip} \\
+Raw042 & \#01 & Bumpy  & \texttt{Raw042\_Bumpy.zip} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Additional Annotated Recordings}
+
+On 20 September 2026, additional data were collected by participant~\#01
+(\texttt{pt01}) to compensate for missing recordings and the acquisition issue
+observed with participant~\#03. Two longer annotated recordings were added and
+subsequently segmented into individual Smooth and Bumpy samples.
+
+Because multiple segmented files originated from the same continuous source
+recording, they were kept under a shared split-group identifier. This grouping
+was later used during model partitioning and cross-validation to prevent
+segments from the same original ride from appearing in both training and
+validation subsets.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{Segmented recordings derived from the additional annotated data.}
+\label{tab:annotated-recordings}
+\begin{tabularx}{\linewidth}{@{}l l X l@{}}
+\toprule
+Recording ID & Terrain & Source / split group & Output file \\
+\midrule
+Raw031 & Bumpy  &
+\texttt{pt01-annotations-19min-2026-09-19\_09-02-09.zip} &
+\texttt{Raw031\_Bumpy.zip} \\
+
+Raw032 & Smooth &
+\texttt{pt01-annotations-19min-2026-09-19\_09-02-09.zip} &
+\texttt{Raw032\_Smooth.zip} \\
+
+Raw033 & Bumpy  &
+\texttt{pt01-annotations-19min-2026-09-19\_09-02-09.zip} &
+\texttt{Raw033\_Bumpy.zip} \\
+
+Raw034 & Smooth &
+\texttt{pt01-annotations-19min-2026-09-19\_09-02-09.zip} &
+\texttt{Raw034\_Smooth.zip} \\
+
+Raw035 & Bumpy  &
+\texttt{pt01-annotations-19min-2026-09-19\_09-02-09.zip} &
+\texttt{Raw035\_Bumpy.zip} \\
+
+Raw036 & Smooth &
+\texttt{pt01-annotations-19min-2026-09-19\_09-02-09.zip} &
+\texttt{Raw036\_Smooth.zip} \\
+
+Raw037 & Bumpy  &
+\texttt{pt01-annotations-19min-2026-09-19\_09-02-09.zip} &
+\texttt{Raw037\_Bumpy.zip} \\
+
+Raw038 & Smooth &
+\texttt{pt01-annotations-19min-2026-09-19\_10-44-41.zip} &
+\texttt{Raw038\_Smooth.zip} \\
+
+Raw039 & Bumpy  &
+\texttt{pt01-annotations-19min-2026-09-19\_10-44-41.zip} &
+\texttt{Raw039\_Bumpy.zip} \\
+
+Raw040 & Smooth &
+\texttt{pt01-annotations-19min-2026-09-19\_10-44-41.zip} &
+\texttt{Raw040\_Smooth.zip} \\
+
+Raw041 & Bumpy  &
+\texttt{pt01-annotations-19min-2026-09-19\_10-44-41.zip} &
+\texttt{Raw041\_Bumpy.zip} \\
+\bottomrule
+\end{tabularx}
+\end{table}
