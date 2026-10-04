@@ -1,130 +1,105 @@
 \section{Data Understanding}
+\label{sec:data-understanding}
 
 \subsection{Acquisition Protocol}
 
+\textbf{Acquisition protocol.}
+Smartphone sensor data were collected while participants cycled over road
+segments labelled as either \textit{Smooth} or \textit{Bumpy}. The smartphone
+was placed in the rider's back pocket to provide a reasonably consistent
+measurement position while limiting direct displacement caused by leg
+movement. The initial collection plan targeted five recordings of each terrain
+type per participant, with individual recordings lasting at least 30~s. Three participants
+originally collected data, of whom two remained after quality screening.
 
+Three sensor streams were retained for the analysis: calibrated
+accelerometer, gravity and calibrated gyroscope measurements, each containing
+three spatial axes. Participant identities were replaced by anonymous numeric
+codes, while raw files followed the naming convention
+\texttt{RawXXX\_Terrain.zip}. Raw packages were stored locally before
+processing rather than being retrieved automatically from external storage.
 
-\textbf{Acquisition protocol.} \fillme{Participants, anonymization, back-pocket placement, accelerometer/gravity/gyroscope configuration, number/duration/terrain of rides, and source organization.}
+\textbf{Quality screening.}
+The effective sampling frequency of every sensor stream was estimated from
+the mean interval between successive timestamps. Most usable recordings were
+measured close to the intended 100~Hz sampling rate. Recordings originating
+from participant~\#03 were instead sampled at approximately 62~Hz.
 
-\textbf{Quality screening.} \fillme{Show measured sampling rates; document exclusion of participant \#03 (~62 Hz, Nyquist ~31 Hz, incompatible with 40--46 Hz features). Describe what this does to participant generalizability.}
+At 62~Hz the corresponding Nyquist frequency is only approximately
+31~Hz. This is incompatible with the later frequency-domain analysis, which
+uses information extending to 46~Hz. Upsampling these recordings would
+increase the sample count but could not reconstruct frequency content that was
+never measured. Participant~\#03 was therefore excluded rather than mixing
+measurements with fundamentally different observable bandwidths.
 
-\textbf{Available independent units.} \fillme{State both number of windows and independent original recording/session groups; identify how Raw031--Raw041 map to two parent sessions.}
-
-\subsection{Empirical Measurements - Road Frequency versus Leg Movement Artifacts}
-It was decided to conduct an experiment to evaluate whether there was a possible overlap with low frequency artifacts (such as leg movements) with the natural vibration caused by the gaps on the road.
-
-Accordingly, an empirical experiment was carried out to empirically measure those frequencies.
+After this quality-control step, 26 recordings were retained, corresponding
+to approximately 4789~s (79.8~min) of sensor data. This exclusion improves
+measurement consistency but reduces participant diversity: all subsequent
+modelling results are based on only two retained participants and should
+therefore not be interpreted as demonstrating population-level
+generalisation.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\linewidth]{figures/leg-movement}
-    \caption{Example of manually counting the rotations per minute based on the video recording from one of the participants.}
-    \label{fig:leg-mov}
+    \includegraphics[width=0.92\linewidth]
+    {figures/recorded-sampling-frequencies-plot.png}
+    \caption{Measured sampling frequencies for the three recorded sensor streams
+    across all acquired recordings. Most recordings are close to the nominal
+    100~Hz rate, whereas participant~\#03 recordings are approximately 62~Hz.}
+    \label{fig:sampling-frequencies}
 \end{figure}
 
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.8\linewidth]{figures/gap-bumpy-terrain}
-    \caption{Different types of bumpy terrains were considered. The measured terrains ranged from $100 \sim 500mm$ gap interval.}
-    \label{fig:road-gaps}
-\end{figure}
+\textbf{Available independent units.}
+After operational-state filtering and window extraction, the retained data
+produced 4246 valid riding windows, comprising 2431 Smooth and 1815 Bumpy
+windows. These windows are not statistically independent observations because
+neighbouring windows overlap and several recordings originated from the same
+continuous acquisition session.
 
+In particular, Raw031--Raw037 were segmented from one original annotated 
+recording and were therefore represented by the shared group
+\texttt{AnnotatedSession01}. Raw038--Raw041 similarly originated from a
+second recording and were represented by \texttt{AnnotatedSession02}.
+These parent-session identifiers were subsequently used during dataset
+partitioning and cross-validation to prevent segments from the same original
+ride appearing on opposite sides of a validation split.
 
-The approximate road-excitation frequency was estimated from the measured
-cycling velocity and the spatial spacing between terrain irregularities:
+The measured sampling frequencies are shown in Figure~\ref{fig:sampling-frequencies}. The clear
+ hardware-dependent difference supports exclusion of participant~\#03 rather than artificial resampling,
+ which could not recover unobserved spectral content above its Nyquist limit.
 
-\begin{equation}
-    f_{\text{road}} \approx \frac{v}{\lambda},
-\end{equation}
+\subsection{Physics-Informed Exploratory Analysis}
+\label{sec:physics-eda}
 
-where $v$ is the bicycle velocity and $\lambda$ is the spatial terrain
-spacing. For the experiment, $\lambda = 100$ mm $= 0.1$ m. The bicycle
-velocity was calculated from the travelled distance $d$ and the mean time
-of the three repetitions:
+Before defining the frequency-domain features, an exploratory experiment was
+performed to investigate whether bicycle-induced road vibration could be
+separated from low-frequency rider motion.
 
-\begin{equation}
-    v = \frac{d}{\bar{t}}.
-\end{equation}
-
-Pedalling frequency was estimated by manually counting complete leg-motion
-cycles over a measured video duration:
-
-\begin{equation}
-    f_{\text{pedal}} = \frac{N_{\text{cycles}}}{t},
-\end{equation}
-
-with cadence expressed in revolutions per minute as
+Road excitation was approximated from bicycle speed $v$ and the characteristic
+spacing $\lambda$ between surface irregularities:
 
 \begin{equation}
-    \mathrm{RPM} = 60 f_{\text{pedal}}.
+    f_{\mathrm{road}} \approx \frac{v}{\lambda}.
 \end{equation}
 
-\begin{table}[htbp]
-    \centering
-    \caption{Measured cycling speed and estimated road-excitation frequency for a terrain spacing of $\lambda = 100$ mm.}
-    \label{tab:road_frequency}
-    \begin{tabular}{ccccccccc}
-        \toprule
-        $\lambda$ 
-        & Distance
-        & Intended
-        & $t_1$
-        & $t_2$
-        & $t_3$
-        & $\bar{t}$
-        & Speed
-        & $f_{\text{road}}$ \\
-        (mm)
-        & (m)
-        & speed
-        & (s)
-        & (s)
-        & (s)
-        & (s)
-        & (m/s)
-        & (Hz) \\
-        \midrule
-        100 & 10 & Slow   & 3.63 & 4.06 & 4.03 & 3.91 & 2.56 & 25.60 \\
-        100 & 10 & Medium & 2.50 & 2.45 & 2.60 & 2.52 & 3.97 & 39.74 \\
-        100 & 10 & Fast   & 1.95 & 1.85 & 2.06 & 1.95 & 5.12 & 51.19 \\
-        \bottomrule
-    \end{tabular}
-    \label{tab:road-freq}
-\end{table}
+For a measured irregularity spacing of $\lambda=100$~mm, repeated 10~m runs
+produced estimated excitation frequencies of 25.6~Hz, 39.7~Hz and 51.2~Hz
+for slow, medium and fast cycling respectively. Considering the largest
+observed spacing ($\lambda\approx500$~mm) together with the slowest measured
+speed ($v\approx2.5$~m/s) gives an approximate lower road-excitation bound of
+5~Hz.
 
-As shown in table \ref{tab:road-freq}, the data was calculated for a gap interval $\lambda = 100mm$. As it can be seen in figure \ref{fig:road-gaps}, we can easily extrapolate those results with $\lambda=300mm$ and $\lambda=500mm$.
+Rider-motion frequency was independently estimated by manually counting
+complete pedalling cycles from video recordings:
 
-We already know the higher end of the spectrum, with $\lambda = 100mm$ at maximum speeds, which yields a road frequency of $\approx 51Hz$. To estimate to the best of our abilities the other side of the spectrum, we need to consider the maximum gap measured ($\lambda = 500mm$), associated with the slowest speed in table \ref{tab:road-freq} ($\approx 2.5 m/s$) which will, in turn, result in a minimum road frequency of $\approx 5Hz$.
+\begin{equation}
+    f_{\mathrm{pedal}}=\frac{N_{\mathrm{cycles}}}{t}.
+\end{equation}
 
-
-\begin{table}[htbp]
-    \centering
-    \caption{Estimated pedalling cadence from manually counted leg-motion cycles.}
-    \label{tab:pedalling_frequency}
-    \begin{tabular}{lcccc}
-        \toprule
-        Video
-        & Duration
-        & Cycles counted
-        & $f_{\text{pedal}}$
-        & Cadence \\
-        & (s)
-        &
-        & (Hz)
-        & (RPM) \\
-        \midrule
-        rpm-video-1.mp4 & 17 & 26 & 1.53 & 91.76 \\
-        rpm-video-2.mp4 & 21 & 30 & 1.43 & 85.71 \\
-        rpm-video-3.mp4 & 25 & 30 & 1.20 & 72.00 \\
-        \bottomrule
-    \end{tabular}
-    \label{tab:leg-rpm}
-\end{table}
-
-Based on the results computed in table \ref{tab:leg-rpm}, it is clear important to observe that we're only interested in the highest possible speed, and that is why the group participant was request to cycle as fast as possible. Since a single gear bicycle was used in the experiment, one could claim that the number of leg revolutions would be as high as possible and still, the maximum frequency observed was still under $2 Hz$.
-
-The combined results of both experiments offer a solid base for the intuition that there seems to be, indeed, a gap in the frequency spectrum of the leg movements and the road vibration frequency. 
-
-
-
-\figorplaceholder{figures/sampling_rates.pdf}{0.76}{Measured sampling-rate checks across the acquired recordings.}{fig:sampling}
+Even during intentionally fast cycling, measured pedalling frequencies ranged
+from approximately 1.20 to 1.53~Hz (72--92~RPM), remaining below 2~Hz.
+The experiment therefore indicated a useful separation between dominant
+pedalling motion and plausible road-induced vibration. This observation
+motivated treating the low-frequency region as rider-motion dominated and
+investigating a higher-frequency road-vibration band during subsequent
+signal processing.

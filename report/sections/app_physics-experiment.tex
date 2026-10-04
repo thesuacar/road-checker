@@ -1,0 +1,80 @@
+\section{Empirical Measurements - Road Frequency versus Leg Movement Artifacts}
+
+This appendix provides the raw experimental measurements supporting the
+physics-informed frequency analysis summarized in
+Section~\ref{sec:physics-eda}.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/leg-movement}
+    \caption{Example of manually counting the rotations per minute based on the video recording from one of the participants.}
+    \label{fig:leg-mov}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/gap-bumpy-terrain}
+    \caption{Different types of bumpy terrains were considered. The measured terrains ranged from $100 \sim 500mm$ gap interval.}
+    \label{fig:road-gaps}
+\end{figure}
+
+
+\begin{table}[htbp]
+    \centering
+    \caption{Measured cycling speed and estimated road-excitation frequency for a terrain spacing of $\lambda = 100$ mm.}
+    \label{tab:road_frequency}
+    \begin{tabular}{ccccccccc}
+        \toprule
+        $\lambda$ 
+        & Distance
+        & Intended
+        & $t_1$
+        & $t_2$
+        & $t_3$
+        & $\bar{t}$
+        & Speed
+        & $f_{\text{road}}$ \\
+        (mm)
+        & (m)
+        & speed
+        & (s)
+        & (s)
+        & (s)
+        & (s)
+        & (m/s)
+        & (Hz) \\
+        \midrule
+        100 & 10 & Slow   & 3.63 & 4.06 & 4.03 & 3.91 & 2.56 & 25.60 \\
+        100 & 10 & Medium & 2.50 & 2.45 & 2.60 & 2.52 & 3.97 & 39.74 \\
+        100 & 10 & Fast   & 1.95 & 1.85 & 2.06 & 1.95 & 5.12 & 51.19 \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:road-freq}
+\end{table}
+
+
+\begin{table}[htbp]
+    \centering
+    \caption{Estimated pedalling cadence from manually counted leg-motion cycles.}
+    \label{tab:pedalling_frequency}
+    \begin{tabular}{lcccc}
+        \toprule
+        Video
+        & Duration
+        & Cycles counted
+        & $f_{\text{pedal}}$
+        & Cadence \\
+        & (s)
+        &
+        & (Hz)
+        & (RPM) \\
+        \midrule
+        rpm-video-1.mp4 & 17 & 26 & 1.53 & 91.76 \\
+        rpm-video-2.mp4 & 21 & 30 & 1.43 & 85.71 \\
+        rpm-video-3.mp4 & 25 & 30 & 1.20 & 72.00 \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:leg-rpm}
+\end{table} 
+
+\clearpage

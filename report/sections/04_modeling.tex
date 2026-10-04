@@ -1,28 +1,122 @@
 \section{Modeling}
-\textbf{Partitioning.} \fillme{Describe frozen multi-participant, complete-recording 78/22 hold-out; 13 independent training split groups, including two original parent sessions. Explain grouped internal validation and scaling within each fold.}
 
-\textbf{Candidate feature sets.} \fillme{Describe full\_12, compact\_physics\_5 and compact\_ratio\_4; justify their comparison.}
+\textbf{Partitioning.}
+A deterministic recording-level hold-out was frozen before model fitting.
+Complete recordings Raw001 and Raw022 from participant~\#01 and Raw008 and
+Raw011 from participant~\#02 were assigned to the final test set. Each
+participant therefore contributed both a Smooth and a Bumpy independent
+recording to the hold-out.
 
-\textbf{Supervised methods.} k-NN, Logistic Regression, Decision Tree and Random Forest. \fillme{Record the course-motivated reason for each and the actual hyperparameter search ranges.}
+The resulting partition contained 3311 training windows (78.0\%) and
+935 held-out test windows (22.0\%). The training partition contained
+2007 Smooth and 1304 Bumpy windows, while the final test partition contained
+424 Smooth and 511 Bumpy windows.
 
-\textbf{Unsupervised methods.} K-Means, Agglomerative Clustering, DBSCAN and Gaussian Mixture Model. \fillme{Contrast cluster assumptions; explain that terrain labels are never inputs to clustering.}
+All windows associated with an original acquisition session were represented
+by the same grouping variable. Consequently, the training set contained
+13 independent split groups rather than treating all 3311 windows as
+independent samples.
+
+Model development used five-fold \texttt{StratifiedGroupKFold}
+cross-validation on the training set. This simultaneously attempted to
+preserve class representation and prevented windows from the same recording
+or parent session from appearing in both the training and validation portions
+of a fold. Scaling was implemented inside each model pipeline so that
+transformation parameters were learned from the corresponding training fold
+only.
+
+\textbf{Candidate feature sets.}
+Three predefined feature representations were compared for every model:
+\texttt{full\_12}, containing all twelve engineered features;
+\texttt{compact\_physics\_5}, containing gyroscope RMS, 4--46~Hz road-band
+RMS and spectral energies at 0--3, 10--20 and 20--40~Hz; and
+\texttt{compact\_ratio\_4}, containing gyroscope RMS, road-band RMS,
+20--40~Hz energy and the high/low-frequency energy ratio.
+
+The comparison was designed to determine whether compact,
+physically interpretable feature sets could match or improve the performance
+of the complete representation, particularly given the strong correlations
+observed between several candidate features.
+
+\textbf{Supervised methods.}
+Four supervised methods were compared, each representing a different type of classifier.
+k-nearest neighbours (k-NN) tested whether Smooth and Bumpy observations form
+different local neighbourhoods in feature space. Logistic Regression provided
+a regularised linear baseline. A Decision Tree allowed nonlinear threshold
+rules to be learned directly, while Random Forest tested whether aggregating
+multiple trees could capture more robust feature interactions.
+
+For k-NN, $k$ was searched from 3 to 49 in steps of two, with uniform and
+distance weighting and Manhattan ($p=1$) or Euclidean ($p=2$) distance.
+For Logistic Regression, $C \in \{0.01,0.1,1,10\}$. Candidate preprocessing
+for both methods included no scaling, StandardScaler, RobustScaler,
+MinMaxScaler and PowerTransformer. Decision Tree depth was searched over
+$\{2,3,4,5,6,8,10,12,15,\mathrm{None}\}$ with minimum leaf sizes from
+1 to 100. Random Forest used 100 or 200 trees, maximum depths from 3 through
+20 or unlimited depth, and minimum leaf sizes from 1 to 50.
+
+Hyperparameter selection used grouped training-only cross-validation with
+$F_{0.5}$ as the refit criterion. After hyperparameter selection,
+out-of-fold training probabilities were additionally used to select the
+classification threshold.
+
+\textbf{Unsupervised methods.}
+Four clustering approaches were also investigated without using terrain
+labels as fitting inputs. The four clustering methods were chosen because they 
+look for structure in different ways: K-Means is centroid-based, Agglomerative
+Clustering is hierarchical, DBSCAN is density-based, and GMM models overlapping
+probabilistic components.
+
+The number of clusters/components was investigated between 2 and 6 where
+applicable. DBSCAN searched $\epsilon$ between 0.3 and 2.0 and minimum sample
+counts between 5 and 50, while Agglomerative Clustering compared Ward,
+complete and average linkage. Four scaling transformations were considered
+for the unsupervised methods.
+
+The best configuration within each clustering family was selected using
+Silhouette score only. Ground-truth terrain labels were introduced only
+\emph{after fitting} to calculate ARI, NMI and mapped classification
+diagnostics; they therefore did not determine the clusters themselves.
 
 \begin{table}[htbp]
 \centering\footnotesize
-\caption{Model settings and comparison plan (complete only after running the notebook).}
+\caption{Best training-validation configuration from each model family.}
 \label{tab:models}
 \begin{tabularx}{\linewidth}{@{}l l X@{}}
 \toprule
-Approach & Method & Selected features / parameters / evidence \\
+Approach & Method & Selected configuration / evidence \\
 \midrule
-Supervised & k-NN & \fillme{Fill from validated model run} \\
-Supervised & Logistic Regression & \fillme{Fill} \\
-Supervised & Decision Tree & \fillme{Fill} \\
-Supervised & Random Forest & \fillme{Fill} \\
-Unsupervised & K-Means & \fillme{Fill} \\
-Unsupervised & Agglomerative & \fillme{Fill} \\
-Unsupervised & DBSCAN & \fillme{Fill} \\
-Unsupervised & GMM & \fillme{Fill} \\
+Supervised & k-NN &
+\texttt{compact\_physics\_5}; PowerTransformer; $k=47$;
+Manhattan distance; threshold $0.83$; OOF $F_{0.5}=0.848$ \\
+
+Supervised & Logistic Regression &
+\texttt{full\_12}; RobustScaler; $C=0.1$;
+threshold $0.68$; OOF $F_{0.5}=0.855$ \\
+
+Supervised & Decision Tree &
+\texttt{full\_12}; selected depth $4$ configuration;
+threshold $0.90$; OOF $F_{0.5}=0.828$ \\
+
+Supervised & Random Forest &
+\texttt{full\_12}; selected depth $3$ configuration;
+threshold $0.74$; OOF $F_{0.5}=0.847$ \\
+
+Unsupervised & K-Means &
+\texttt{compact\_physics\_5}; 2 clusters;
+Silhouette $=0.777$, ARI $=0.045$, NMI $=0.067$ \\
+
+Unsupervised & Agglomerative &
+\texttt{compact\_ratio\_4}; average linkage, 2 clusters;
+Silhouette $=0.927$, ARI $=0.001$, NMI $=0.001$ \\
+
+Unsupervised & DBSCAN &
+\texttt{compact\_ratio\_4}; $\epsilon=1.0$, minimum samples $=10$;
+noise fraction $=0.070$, Silhouette $=0.750$ \\
+
+Unsupervised & GMM &
+\texttt{compact\_physics\_5}; tied covariance, 2 components;
+Silhouette $=0.855$, ARI $=0.010$, NMI $=0.015$ \\
 \bottomrule
 \end{tabularx}
 \end{table}

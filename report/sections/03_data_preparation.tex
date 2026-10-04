@@ -1,9 +1,102 @@
 \section{Data Preparation}
-\textbf{Processing pipeline.} \fillme{Sensor alignment, calibrated dynamic acceleration projected along the gravity direction, gyro magnitude, jerk, operational-state gating and 2 s transition exclusion. Explain that centred filters are offline/noncausal.}
+\label{sec:data-preparation}
 
-\textbf{Frequency analysis and windowing.} \fillme{State the physics-informed 4--46 Hz Butterworth analysis band, Welch PSD, 2 s windows and 50\% overlap; do not claim everything inside the band is road-caused.}
 
-\textbf{Features and reduction.} \fillme{Document the 12 engineered candidates; correlation and mutual-information analysis using TRAIN only; motivate compact sets and note redundancy/physical interpretation.}
+\textbf{Processing pipeline.}
+The three smartphone sensor streams were first aligned using their timestamps
+and consolidated at recording level. To reduce sensitivity to phone
+orientation, the analysis then transformed the original sensor axes into
+physically interpretable signals.
 
-\figorplaceholder{figures/state_gating.pdf}{0.90}{Operational-state gating and valid riding segments.}{fig:gating}
-\figorplaceholder{figures/psd_terrain.pdf}{0.82}{State-gated PSD comparison between Smooth and Bumpy windows.}{fig:psd}
+The magnitude of the gravity vector was computed and used to define the local
+vertical direction. Calibrated dynamic acceleration was projected onto this
+gravity direction to obtain \texttt{vertical\_dyn\_acc}, representing bicycle
+motion approximately normal to the road surface. The Euclidean magnitude of
+the three gyroscope axes was calculated as \texttt{gyroscope\_mag}, while
+vertical jerk was obtained from the discrete time derivative of vertical
+dynamic acceleration.
+
+The gyroscope magnitude was also used to distinguish stopped, transitional
+and active-riding periods. A smoothed gyroscope RMS envelope was compared
+with an empirically investigated motion threshold. Samples surrounding
+start/stop transitions were excluded using a 2~s transition buffer, and only
+windows classified as \textit{In Movement} were retained for feature
+extraction. This avoids allowing stationary periods to dominate the
+Smooth class.
+
+\textbf{Frequency analysis and windowing.}
+The physics experiment in Section \ref{sec:physics-eda} indicated that pedalling motion remained
+below approximately 2~Hz, while plausible road-excitation frequencies covered
+a substantially higher range. For the measured combinations of bicycle speed
+and terrain spacing, the estimated road excitation extended approximately
+from 5 to 51~Hz.
+
+Considering both this physical argument and the approximately 100~Hz sensor
+sampling frequency, a fourth-order Butterworth band-pass filter from
+4--46~Hz was applied to vertical dynamic acceleration. The upper limit remains
+below the 50~Hz Nyquist frequency of the retained recordings. The filter is
+used as an analysis band rather than as an assumption that every component
+inside 4--46~Hz is necessarily caused by road roughness.
+
+Welch power spectral density estimates were used to examine the terrain
+classes before modelling. As shown in Figure~\ref{fig:physics-informed},
+Bumpy windows exhibit consistently greater spectral energy over much of the
+candidate road-vibration region. The median 4--46~Hz RMS magnitude was
+1.205~m/s$^2$ for Bumpy windows compared with 0.673~m/s$^2$ for Smooth
+windows, corresponding to an approximately $1.79\times$ ratio.
+
+Together with the independent pedalling experiment in
+Section~\ref{sec:physics-eda}, this supported use of the 4--46~Hz band for
+analysis. The band should nevertheless be interpreted as a physically
+motivated analysis region rather than evidence that all energy within it is
+road-generated.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]
+    {figures/physics-informed-plot-time-and-frequency.png}
+    \caption{Physics-informed comparison of Smooth and Bumpy riding windows.
+    The upper panel shows median Welch PSD estimates and the selected
+    road-vibration analysis band. The lower panels illustrate representative
+    2~s windows before and after 4--46~Hz band-pass filtering.}
+    \label{fig:physics-informed}
+\end{figure}
+
+The retained riding data were divided into 2~s windows with 50\% overlap,
+resulting in 4246 valid windows. Because the current filtering implementation uses non-causal processing,
+the present pipeline should be regarded as an offline analysis pipeline.
+The 2~s windows with 50\% overlap additionally introduce temporal dependence
+between neighbouring feature vectors.
+
+\textbf{Features and reduction.}
+Twelve candidate features were engineered from each valid window:
+acceleration RMS, standard deviation and peak-to-peak amplitude;
+gyroscope RMS; vertical-jerk RMS; RMS vibration in the 4--46~Hz road
+band; spectral energy in the 0--3, 3--10, 10--20 and 20--40~Hz bands;
+total spectral energy in 4--46~Hz; and a high-to-low-frequency energy
+ratio.
+
+Feature redundancy and mutual information with the terrain label were
+analysed using the \textbf{training partition only}. The higher-frequency and 
+vibration-related features carried most of the information about the terrain label.
+The strongest mutual-information scores were obtained for
+20--40~Hz spectral energy ($MI=0.312$), jerk RMS ($0.289$),
+4--46~Hz road-band RMS ($0.252$), and acceleration peak-to-peak
+amplitude ($0.230$).
+
+Several features nevertheless represented closely related physical behaviour.
+Acceleration RMS and standard deviation were effectively collinear, while
+jerk RMS and road-band RMS showed $|r|=0.954$. Because several of the strongest
+features were also highly correlated, we did not simply keep the features with
+the highest individual scores. Instead, we compared three feature sets during modelling.
+
+Three candidate representations were evaluated:
+\texttt{full\_12}, containing all twelve features;
+\texttt{compact\_physics\_5}, containing five physically motivated features;
+and \texttt{compact\_ratio\_4}, containing four features including the
+high/low spectral-energy ratio.
+
+Interestingly, Logistic Regression still performed best with all 12 features,
+despite the redundancy between some of them. k-NN behaved differently and performed best with
+\texttt{full\_12}, containing all twelve features;
+the reduced \texttt{compact\_physics\_5} set.

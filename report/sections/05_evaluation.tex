@@ -1,10 +1,125 @@
-\section{Evaluation}
-\textbf{Selection criterion.} \fillme{Define positive class Bumpy; justify emphasis on Bumpy recall and false negatives alongside precision, F1 and balanced accuracy. Identify whether ROC-AUC was valid for each validation fold.}
+\section{Evaluation} \label{sec:evaluation}
+\textbf{Selection criterion.}
+Bumpy was consistently treated as the positive class. Model development was
+conducted exclusively on the training partition, with $F_{0.5}$ used as the
+primary selection criterion because false Bumpy alarms are considered more
+costly than missed detections, while non-zero recall remains necessary for a
+useful classifier.
 
-\textbf{Supervised comparison.} \fillme{Training-only grouped validation methodology, feature-set comparison, selected hyperparameters, aggregate and per-recording metrics. Distinguish the exploratory pilot from final comparison.}
+All five grouped validation folds contained examples of both classes, so
+class-dependent metrics including ROC--AUC were mathematically defined for
+each fold. Precision, recall, specificity, $F_1$, balanced accuracy,
+ROC--AUC and average precision were nevertheless interpreted as supporting
+diagnostics rather than independently optimised objectives.
 
-\textbf{Clustering comparison.} \fillme{Clusters/noise fraction; ARI and NMI using labels only for post-fit diagnostics; silhouette where defined. Discuss out-of-sample limitations of Agglomerative and DBSCAN.}
+\textbf{Supervised comparison.}
+Each of the four supervised families was evaluated using all three candidate
+feature representations under the same frozen grouped cross-validation
+scheme. Hyperparameters were fitted inside the grouped folds, after which
+training-only out-of-fold probabilities were used to determine a decision
+threshold for each candidate.
 
-\textbf{Frozen hold-out.} \fillme{Only after model and threshold selection: report the independent four-recording test results once; analyze missed bumps, false alarms, participant/group variation and dataset limitations.}
+The strongest configuration from each model family achieved training
+out-of-fold $F_{0.5}$ values of 0.855 for Logistic Regression,
+0.848 for k-NN, 0.847 for Random Forest and 0.828 for Decision Tree.
+The differences between the first three approaches were therefore relatively
+small, but Logistic Regression provided the highest validation criterion.
 
-\figorplaceholder{figures/final_confusion_matrix.pdf}{0.50}{Final held-out confusion matrix; Bumpy treated as the positive class.}{fig:cm}
+The resulting final specification was consequently frozen as Logistic
+Regression using the complete \texttt{full\_12} feature set, RobustScaler,
+$C=0.1$, and a Bumpy probability threshold of $0.68$. Both the model
+specification and the threshold were fixed before accessing the held-out test
+recordings.
+
+\textbf{Final model rationale.}
+Logistic Regression was selected not only because it achieved the highest
+training-only OOF $F_{0.5}$, but also because its characteristics are well
+matched to the intended application. The problem uses a compact engineered
+feature representation rather than raw high-dimensional signals, making a
+regularised linear classifier appropriate for the available dataset size.
+Its coefficients and probability outputs are also more directly interpretable
+than those of the ensemble alternative, while inference requires only a small
+number of arithmetic operations per window. This makes the model comparatively
+lightweight for future mobile or edge deployment. Random Forest and k-NN were very
+close in validation performance, so there was little reason to choose the more complex
+alternative over Logistic Regression. The latter is also easier to interpret and lightweight
+enough for a future mobile or edge implementation.
+
+\textbf{Clustering comparison.}
+The unsupervised analysis produced a different result depending on whether
+internal cluster compactness or agreement with the known terrain classes was
+considered. Agglomerative Clustering obtained the highest Silhouette score
+($0.927$), but its ARI and NMI were only approximately $0.001$, indicating
+that its very well-separated clusters did not correspond meaningfully to the
+Smooth/Bumpy distinction.
+
+Similarly, GMM achieved a Silhouette score of $0.855$ but only
+ARI $=0.010$ and NMI $=0.015$. K-Means showed somewhat greater correspondence
+with the terrain labels (ARI $=0.045$, NMI $=0.067$), while DBSCAN produced
+the highest diagnostic agreement among the clustering approaches
+(ARI $=0.060$, NMI $=0.069$) and classified approximately 7\% of the
+training observations as noise.
+
+The high Silhouette scores show that there is clear structure in the engineered
+feature space, but the very low ARI and NMI values show that this structure does 
+not correspond well to Smooth versus Bumpy terrain. In other words, a high Silhouette
+score does not necessarily mean that the clusters represent the terrain classes we care about.
+Furthermore, Agglomerative Clustering does not naturally provide an
+out-of-sample prediction rule, while standard DBSCAN cannot directly assign
+arbitrary future observations without an additional deployment mechanism.
+
+\textbf{Frozen hold-out evaluation.}
+After all model, feature and threshold decisions had been frozen, the four
+independent held-out recordings were evaluated once.
+
+The final Logistic Regression classifier obtained accuracy $=0.565$,
+Bumpy precision $=0.964$, recall $=0.211$, specificity $=0.991$,
+$F_{0.5}=0.563$, $F_1=0.347$, balanced accuracy $=0.601$,
+ROC--AUC $=0.947$, and average precision $=0.942$.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.55\linewidth]
+    {figures/confusion-matrix-test-data.png}
+    \caption{Confusion matrix for the final frozen Logistic Regression model
+    evaluated once on the four held-out recordings.}
+    \label{fig:heldout-cm}
+\end{figure}
+
+Figure~\ref{fig:heldout-cm} makes the selected operating trade-off explicit:
+only 4 of 424 Smooth windows were falsely flagged as Bumpy, while 403 of
+511 Bumpy windows were missed. The classifier therefore achieved the intended
+low false-positive behaviour, but at the cost of substantial false negatives.
+
+The reduction from OOF $F_{0.5}=0.855$ to held-out $F_{0.5}=0.563$
+also shows that grouped training validation underestimated the difficulty of
+generalising to some unseen recordings.
+
+This weakness was not uniform across the hold-out set. Raw001 classified all
+46 Smooth windows correctly, while Raw008 achieved 98.9\% accuracy. The two
+Bumpy recordings behaved very differently: Raw022 achieved 87.5\% accuracy
+with mean Bumpy probability $0.868$, whereas Raw011 achieved only 11.6\%
+accuracy with mean probability $0.414$.
+
+This suggests recording- or condition-dependent distribution shift rather
+than a global inability to rank rough terrain. The high ROC--AUC together
+with low thresholded recall also indicates that the fixed $0.68$ threshold
+was conservative on the held-out distribution. It should not, however, be
+retrospectively tuned using this test set.
+
+\textbf{Supervised versus unsupervised behaviour.}
+Supervised learning explicitly tries to separate the known Smooth and Bumpy
+classes, whereas clustering searches for structure without knowing those labels.
+Supervised learning directly optimises separation of the predefined Smooth and Bumpy
+classes, whereas clustering searches for structure in feature space without
+assuming that terrain condition is the dominant source of variation.
+
+For this task, supervised learning is therefore preferable because the target
+classes are explicitly known and deployment requires direct classification.
+The unsupervised models remain useful as exploratory tools for revealing latent
+structure, identifying atypical observations and testing whether the known
+terrain labels correspond to natural groupings. The weak correspondence
+between clusters and terrain labels suggests that other factors---such as
+rider, recording session, cycling speed, phone orientation or vibration
+intensity---also contribute substantially to the structure of the feature
+space.
