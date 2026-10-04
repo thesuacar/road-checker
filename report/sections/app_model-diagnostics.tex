@@ -27,22 +27,11 @@ training predictions.
 
 \subsection{Unsupervised comparison}
 
-\begin{figure}[p]
-    \centering
-    \includegraphics[width=\textwidth]
-    {figures/confusion-matrices-UNsupervised.png}
-    \caption{Mapped training-set confusion matrices for the best configuration
-    from each unsupervised clustering family. Terrain labels were not used
-    during clustering and were applied only afterwards to map clusters for
-    diagnostic comparison.}
-    \label{fig:appendix-unsupervised-cm}
-\end{figure}
-
 The mapped confusion matrices reinforce the distinction between internal
 cluster separation and terrain-class agreement. Agglomerative Clustering and
 Gaussian Mixture Modelling formed internally well-separated structures, but
 these structures mapped predominantly to the Smooth class. DBSCAN produced
 the greatest correspondence with the Smooth/Bumpy target among the evaluated
 clustering methods, although its agreement remained weak compared with the
-supervised approaches.
+supervised approaches. See figure \ref{fig:appendix-unsupervised-cm}
 

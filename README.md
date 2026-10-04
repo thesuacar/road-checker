@@ -41,6 +41,7 @@ A detailed description of the dataset, methodology, modelling decisions and resu
 ├── README.md
 ├── notebook.ipynb
 ├── report.pdf
+└── photos-videos/
 └── data/
     ├── checkpoints/
     ├── deployment_data/

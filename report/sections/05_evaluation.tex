@@ -7,9 +7,9 @@ costly than missed detections, while non-zero recall remains necessary for a
 useful classifier.
 
 All five grouped validation folds contained examples of both classes, so
-class-dependent metrics including ROC--AUC were mathematically defined for
+class-dependent metrics including ROC - AUC were mathematically defined for
 each fold. Precision, recall, specificity, $F_1$, balanced accuracy,
-ROC--AUC and average precision were nevertheless interpreted as supporting
+ROC - AUC and average precision were nevertheless interpreted as supporting
 diagnostics rather than independently optimised objectives.
 
 \textbf{Supervised comparison.}
@@ -45,6 +45,11 @@ close in validation performance, so there was little reason to choose the more c
 alternative over Logistic Regression. The latter is also easier to interpret and lightweight
 enough for a future mobile or edge implementation.
 
+For the selected Logistic Regression model, \texttt{full\_12} was ultimately the
+optimal feature representation under grouped training-only $F_{0.5}$ validation, despite
+the observed redundancy; the strongest individual training-only MI features were 20–40 Hz energy,
+jerk RMS, 4–46 Hz road-band RMS and acceleration peak-to-peak.
+
 \textbf{Clustering comparison.}
 The unsupervised analysis produced a different result depending on whether
 internal cluster compactness or agreement with the known terrain classes was
@@ -75,11 +80,11 @@ independent held-out recordings were evaluated once.
 The final Logistic Regression classifier obtained accuracy $=0.565$,
 Bumpy precision $=0.964$, recall $=0.211$, specificity $=0.991$,
 $F_{0.5}=0.563$, $F_1=0.347$, balanced accuracy $=0.601$,
-ROC--AUC $=0.947$, and average precision $=0.942$.
+ROC - AUC $=0.947$, and average precision $=0.942$.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.55\linewidth]
+    \includegraphics[width=0.5\linewidth]
     {figures/confusion-matrix-test-data.png}
     \caption{Confusion matrix for the final frozen Logistic Regression model
     evaluated once on the four held-out recordings.}
@@ -102,7 +107,7 @@ with mean Bumpy probability $0.868$, whereas Raw011 achieved only 11.6\%
 accuracy with mean probability $0.414$.
 
 This suggests recording- or condition-dependent distribution shift rather
-than a global inability to rank rough terrain. The high ROC--AUC together
+than a global inability to rank rough terrain. The high ROC - AUC together
 with low thresholded recall also indicates that the fixed $0.68$ threshold
 was conservative on the held-out distribution. It should not, however, be
 retrospectively tuned using this test set.
@@ -119,7 +124,18 @@ classes are explicitly known and deployment requires direct classification.
 The unsupervised models remain useful as exploratory tools for revealing latent
 structure, identifying atypical observations and testing whether the known
 terrain labels correspond to natural groupings. The weak correspondence
-between clusters and terrain labels suggests that other factors---such as
+between clusters and terrain labels suggests that other factors - such as
 rider, recording session, cycling speed, phone orientation or vibration
-intensity---also contribute substantially to the structure of the feature
+intensity - also contribute substantially to the structure of the feature
 space.
+
+\begin{figure}[p]
+    \centering
+    \includegraphics[width=0.8\textwidth]
+    {figures/confusion-matrices-UNsupervised.png}
+    \caption{Mapped training-set confusion matrices for the best configuration
+    from each unsupervised clustering family. Terrain labels were not used
+    during clustering and were applied only afterwards to map clusters for
+    diagnostic comparison.}
+    \label{fig:appendix-unsupervised-cm}
+\end{figure}
